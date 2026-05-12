@@ -3,7 +3,7 @@ package ap5.dados;
 public class Contato {
     private String nome;
     private String telefone;
-    
+
     public Contato() {
     }
 
@@ -11,20 +11,23 @@ public class Contato {
         this.nome = nome;
         this.telefone = telefone;
     }
-    
+
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
+
     public String getTelefone() {
         return telefone;
     }
+
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -36,18 +39,17 @@ public class Contato {
 
     @Override
     public boolean equals(Object obj) {
-        Contato c = new Contato();
-        if(c.nome == this.getNome() &&  c.telefone == this.getTelefone()){
+        if (this == obj)
             return true;
-        } else {
+        if (!(obj instanceof Contato))
             return false;
-        }
+        Contato c = (Contato) obj;
+        return this.nome.equals(c.nome) && this.telefone.equals(c.telefone);
     }
-    
+
     @Override
     public String toString() {
         return "Contato [nome=" + nome + ", telefone=" + telefone + "]";
     }
 
-    
 }

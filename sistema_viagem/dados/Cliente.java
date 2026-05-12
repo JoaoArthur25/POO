@@ -18,6 +18,9 @@ public class Cliente {
         this.reservas = new ArrayList<>();
     }
 
+    public Cliente() {
+    }
+
     public String getCpf() {
         return cpf;
     }

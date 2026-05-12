@@ -6,40 +6,63 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ap5.dados.Contato;
+import ap5.persistencia.ContatoDAO;
 
 public class ListaTelefonica {
-    private Map<Character, List<Contato>> contatos;
+    private ContatoDAO contatoDAO = new ContatoDAO();
 
     public ListaTelefonica() {
-        contatos = new HashMap<>();
+    }
 
-        for(char chave = 'A'; chave <= 'Z'; chave++){
-            contatos.put(chave, new LinkedList<>());
+    public void adicionarContato(Contato contato) {
+        char inicial = Character.toUpperCase(contato.getNome().charAt(0));
+
+        if (inicial >= 'A' && inicial <= 'Z') {
+            contatoDAO.insert(contato);
         }
     }
 
-    public void adicionarContato(Contato contato){
-
+    public void removerContato(Contato contato) {
         char inicial = Character.toUpperCase(contato.getNome().charAt(0));
-        contatos.get(inicial).add(contato);
+
+        if (inicial >= 'A' && inicial <= 'Z') {
+            contatoDAO.delete(contato);
+        }
     }
 
-    public void removerContato(Contato contato){
+    public List<Contato> buscarContatos(Character c) {
+        char inicial = Character.toUpperCase(c);
 
-        char inicial = Character.toUpperCase(contato.getNome().charAt(0));
-        contatos.get(inicial).remove(contato);
-    }
+        if (inicial >= 'A' && inicial <= 'Z') {
+            List<Contato> resultado = new LinkedList<>();
 
-    public List<Contato> buscarContatos(Character c){
+            for (Contato contato : contatoDAO.getAll()) {
+                char primeiraLetra = Character.toUpperCase(contato.getNome().charAt(0));
+                if (primeiraLetra == inicial) {
+                    resultado.add(contato);
+                }
+            }
 
-        if(c >= 'A' && c <= 'Z'){
-            return contatos.get(c);
+            return resultado;
         } else {
             return null;
         }
     }
 
-    public Map<Character, List<Contato>>  buscarContatos(){
-        return contatos;
+    public Map<Character, List<Contato>> buscarContatos() {
+        Map<Character, List<Contato>> mapa = new HashMap<>();
+
+        for (char c = 'A'; c <= 'Z'; c++) {
+            mapa.put(c, new LinkedList<>());
+        }
+
+        for (Contato contato : contatoDAO.getAll()) {
+            char inicial = Character.toUpperCase(contato.getNome().charAt(0));
+            if (inicial >= 'A' && inicial <= 'Z') {
+                mapa.get(inicial).add(contato);
+            }
+        }
+
+        return mapa;
     }
 }
